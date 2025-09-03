@@ -1,0 +1,21 @@
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Certificate {
+  id             Int      @id @default(autoincrement())
+  certificateId  String   @unique
+  studentName    String
+  email          String
+  dob            DateTime
+  course         String
+  adharHash      String
+  blockchainHash String
+  issuedDate     DateTime @default(now())
+}
+
