@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type":"module",
+  "type": "module",
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.15.0",
