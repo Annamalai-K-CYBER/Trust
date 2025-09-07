@@ -1,21 +1,40 @@
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
+model College {
+  id           String        @id @default(uuid())
+  name         String        @unique
+  email        String        @unique
+  password     String        // hashed
+  createdAt    DateTime      @default(now())
+  certificates Certificate[] // ✅ one-to-many relation
+}
+
+model Admin {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  role     String   @default("admin")
+}
+
 model Certificate {
-  id             Int      @id @default(autoincrement())
-  certificateId  String   @unique
+  id             String   @id @default(uuid())
+  certificateId  String   @unique   // ✅ add this
   studentName    String
   email          String
   dob            DateTime
   course         String
   adharHash      String
   blockchainHash String
-  issuedDate     DateTime @default(now())
-}
+  rollNo         String
+  collegeId      String
+  createdAt      DateTime @default(now())
 
+  college College @relation(fields: [collegeId], references: [id])
+}

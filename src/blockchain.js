@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Secret key from environment
-const SECRET_KEY = process.env.SECRET_KEY || "DefaultKey";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 /**
  * Hash data using SHA-256 with HMAC and secret key
@@ -43,13 +43,13 @@ export class Block {
 /**
  * Blockchain class
  */
-class Blockchain {
+export class Blockchain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
   }
 
   createGenesisBlock() {
-    return new Block(0, Date.now().toString(), "Genesis Block", "0");
+    return new Block(0, Date.now().toString(), { message: "Genesis Block" }, "0");
   }
 
   getLatestBlock() {
@@ -63,7 +63,8 @@ class Blockchain {
     return newBlock.hash;
   }
 
-  isValid() {
+  // ✅ Consistent function name
+  isChainValid() {
     for (let i = 1; i < this.chain.length; i++) {
       const current = this.chain[i];
       const previous = this.chain[i - 1];
